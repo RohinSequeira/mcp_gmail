@@ -1,29 +1,33 @@
-# MCP Draw Application
+# MCP Gmail and Calculator Application
 
-A Python application that uses the Model Context Protocol (MCP) to interact with Freeform on macOS, allowing for automated drawing and text placement.
+A Python application that uses the Model Context Protocol (MCP) to interact with Gmail and perform mathematical calculations. This application demonstrates the use of multiple MCP servers working together.
 
 ## Features
 
-- Opens and manages Freeform application
-- Creates new boards
-- Draws squares with specified dimensions
-- Adds text to squares
-- Uses AppleScript for macOS automation
-- Integrates with Model Context Protocol (MCP)
+- Gmail Operations:
+  - Send emails
+  - Read unread emails
+  - Trash emails
+  - Open emails in browser
+  - Mark emails as read
+- Mathematical Operations:
+  - Basic arithmetic (add, subtract, multiply, divide)
+  - Advanced operations (power, square root, etc.)
+  - List operations
+  - Special functions (factorial, trigonometry)
 
 ## Prerequisites
 
-- macOS operating system
 - Python 3.7 or higher
-- Freeform application installed
-- `cliclick` command-line tool installed (`brew install cliclick`)
+- Google account with Gmail
+- Google Cloud Project with Gmail API enabled
 
 ## Installation
 
 1. Clone the repository:
 ```bash
 git clone <repository-url>
-cd mcp_draw
+cd mcp_gmail
 ```
 
 2. Create and activate a virtual environment:
@@ -37,10 +41,20 @@ source venv/bin/activate  # On macOS/Linux
 pip install -r requirements.txt
 ```
 
-4. Create a `.env` file in the project root and add your Gemini API key:
-```
-GEMINI_API_KEY=your_api_key_here
-```
+4. Set up Google API credentials:
+   - Go to Google Cloud Console
+   - Create a new project or select existing one
+   - Enable Gmail API
+   - Create OAuth 2.0 credentials
+   - Download the credentials and save as `credentials.json` in the project root
+
+## Configuration
+
+1. Place your Google API credentials:
+   - Save your OAuth credentials as `credentials.json` in the project root
+   - First run will generate `token.json` after authentication
+
+Note: Both `credentials.json` and `token.json` are gitignored for security. Keep these files secure and never commit them to version control.
 
 ## Usage
 
@@ -50,31 +64,52 @@ python talk2mcp-2.py
 ```
 
 The application will:
-1. Connect to the MCP server
-2. Initialize the session
-3. Process commands through the Gemini model
-4. Execute drawing operations in Freeform
+1. Connect to both MCP servers (Gmail and Calculator)
+2. Initialize the sessions
+3. Authenticate with Gmail (first run only)
+4. Process commands for both email and mathematical operations
 
 ## Project Structure
 
-- `example2-3.py`: Contains the MCP server implementation and tool definitions
-- `talk2mcp-2.py`: Main client application that interfaces with the MCP server
-- `.env`: Configuration file for API keys (create this file)
+- `server.py`: Gmail MCP server implementation and email tools
+- `example2-3.py`: Calculator MCP server with math tools
+- `talk2mcp-2.py`: Main client application that interfaces with both servers
+- `.gitignore`: Specifies files to ignore in version control
+- `requirements.txt`: Python package dependencies
 
 ## Available Tools
 
-- `open_freeform()`: Opens the Freeform application
-- `create_board_in_freeform()`: Creates a new board in Freeform
-- `create_square_in_freeform()`: Draws a square with specified dimensions
-- `write_text_in_square_in_freeform(text)`: Adds text to the square
+### Gmail Tools
+- `send_email(recipient_id, subject, message)`: Send an email
+- `get_unread_emails()`: Get list of unread emails
+- `read_email(email_id)`: Read a specific email
+- `trash_email(email_id)`: Move email to trash
+- `open_email(email_id)`: Open email in browser
+
+### Math Tools
+- `add(a, b)`: Add two numbers
+- `subtract(a, b)`: Subtract two numbers
+- `multiply(a, b)`: Multiply two numbers
+- `divide(a, b)`: Divide two numbers
+- `power(a, b)`: Calculate power
+- `sqrt(a)`: Calculate square root
+- Additional mathematical functions...
 
 ## Error Handling
 
 The application includes comprehensive error handling for:
-- Freeform application state
+- Gmail API authentication and operations
+- Mathematical operations
+- Server connections
 - Tool execution
-- API communication
 - Parameter validation
+
+## Security
+
+- OAuth 2.0 authentication for Gmail
+- Secure token storage
+- Credentials and tokens are not committed to version control
+- Environment-based configuration
 
 ## Contributing
 
