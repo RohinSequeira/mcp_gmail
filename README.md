@@ -26,7 +26,7 @@ A Python application that uses the Model Context Protocol (MCP) to interact with
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
+git clone https://github.com/RohinSequeira/mcp_gmail.git
 cd mcp_gmail
 ```
 
